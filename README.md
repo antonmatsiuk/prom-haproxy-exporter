@@ -1,48 +1,64 @@
-Role Name
+Ansible: HAProxy Prometheus Exporter
 =========
 
-A brief description of the role goes here.
+Ansible role to install HAProxy prometheus exporter on Linux
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+haproxy is installed on the target host. 
 
 Role Variables
 --------------
+Available variables with default values (see defaults/main.yml):
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+Variable defines whether to install golang runtime or not, set to false if already installed:
+    
+    golang_install: true
+    
+Variable defines whether to install supervisord or not, set to false if already installed:
+
+    supervisor_install: true    
+    
+Location for GOPATH environment variable:
+
+    golang_gopath_home: "/root/go"
+
+
+Installation directory for haproxy_exporter 
+
+    haproxy_exporter_home: "{{ golang_gopath_home }}/bin"
+       
+
+IP and Port on which haproxy exporter listens on the host. Change IP to a desirable value e.g. `{{ ansible_eth0.ipv4.address }}` 
+to listen on a specific interface:
+
+    haproxy_exporter_port: 9104
+    haproxy_exporter_ip: "0.0.0.0"
+    
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+To install haproxy use e.g.: geerlingguy.haproxy
+The role also imports `geerlingguy.supervisor` to install supervisord
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
     - hosts: servers
       roles:
-         - { role: prom-haproxy-exporter, x: 42 }
+         - { role: antonmatsiuk.prom_haproxy_exporter }
 
 License
 -------
 
-BSD
+MIT / BSD
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+DevOps / SRE / Cloud Engineer [Anton Matsiuk](https://github.com/antonmatsiuk)
