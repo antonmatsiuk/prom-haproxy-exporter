@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Anton Matsiuk
+  description: Prometheus HAProxy exporter on CentOS7 / RHEL7
+  company: Facelift BBT
+  issue_tracker_url: https://github.com/antonmatsiuk/prom-mysql-exporter/issues
+  license: "license (MIT, BSD)"
+  min_ansible_version: 2.4
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - prometheus
+    - haproxy
+    - monitoring
+    - exporter
+  dependencies:
+    - geerlingguy.supervisor
+    - gantsign.golang
