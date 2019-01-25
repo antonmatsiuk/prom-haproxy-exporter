@@ -1,2 +1,13 @@
 ---
 # defaults file for prom-haproxy-exporter
+golang_install: true
+golang_gopath_home: "/root/go"
+golang_install_path: "/usr/local/go"
+
+supervisor_install: true
+
+haproxy_exporter_home: "{{ golang_gopath_home }}/bin"
+haproxy_exporter_url: "github.com/prometheus/haproxy_exporter"
+haproxy_scarpe_url: "unix:/var/lib/haproxy/stats"
+haproxy_exporter_ip: "0.0.0.0"
+haproxy_exporter_port: "9101"

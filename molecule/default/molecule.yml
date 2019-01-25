@@ -1,19 +1,40 @@
 ---
 dependency:
   name: galaxy
+  options:
+    ignore-certs: true
+    ignore-errors: true
+    role-file: requirements.yml
 driver:
-  name: docker
+  name: vagrant
+  provider:
+    name: parallels
 lint:
   name: yamllint
+  enabled: true
 platforms:
-  - name: instance
-    image: centos:7
+  - name: molecule-centos
+    box: bento/centos-7
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
+    enabled: true
 scenario:
   name: default
+  test_sequence:
+    - lint
+    - destroy
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    - side_effect
+    - lint
+    - verify
+    - destroy
 verifier:
   name: testinfra
   lint:

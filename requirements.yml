@@ -1,0 +1,4 @@
+---
+- name: geerlingguy.haproxy
+- name: geerlingguy.supervisor
+- name: gantsign.golang

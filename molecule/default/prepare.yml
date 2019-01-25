@@ -1,0 +1,19 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+  pre_tasks:
+  - name: Install python for Ansible
+    yum:
+      name: "{{ item }}"
+      state: installed
+    loop:
+      - epel-release
+      - python
+      - python-setuptools
+      - python-pip
+    become: true
+
+  roles:
+    - role: geerlingguy.haproxy
+      become: true

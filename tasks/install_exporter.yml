@@ -1,0 +1,27 @@
+---
+- name: install haproxy exporter
+  command: "go get {{ haproxy_exporter_url }}"
+
+- name: check if supervisord conf dir is present
+  file:
+    path: "/etc/supervisor/conf.d"
+    state: directory
+
+- name: enable haproxy_exporter in supervisorctl
+  blockinfile:
+    path: /etc/supervisor/conf.d/haproxy_exporter.conf
+    state: present
+    create: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK haproxy_exporter"
+    block: |
+      [program:haproxy_exporter]
+      command={{ haproxy_exporter_home }}/haproxy_exporter --web.listen-address {{ haproxy_exporter_ip }}:{{ haproxy_exporter_port }} --haproxy.scrape-uri={{ haproxy_scarpe_url }}
+      process_name=haproxy_exporter
+      autostart=true
+      autorestart=true
+      user=root
+  become: true
+  notify:
+    - add haproxy_exporter
+    - restart haproxy_exporter
+    - check exporter port
