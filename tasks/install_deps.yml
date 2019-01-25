@@ -1,11 +1,12 @@
 ---
+- name: install supervisord
+  include_role:
+    name: geerlingguy.supervisor
+  when: supervisor_install
+
 - name: install dependencies
   yum: pkg={{ item }} state=installed
   loop:
     - golang
     - git
 
-- name: install supervisord
-  include_role:
-    name: geerlingguy.supervisor
-  when: supervisor_install
